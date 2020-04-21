@@ -679,10 +679,26 @@ Node *multiply_two_numbers(Node *head1, Node *head2) {
   return reverseLLRecursiveBest(finalHead);
 }
 
+Node *sort_abs_with_actual_value(Node *head) {
+  Node *temp = head;
+  while (temp->next != NULL) {
+    if (temp->next->data < temp->data) {
+      Node *toDelete = temp->next;
+      Node *tempNext = temp->next->next;
+      int data = toDelete->data;
+      delete toDelete;
+      temp->next = tempNext;
+      head = insertFirst(head, data);
+    } else {
+      temp = temp->next;
+    }
+  }
+  return head;
+}
+
 int main() {
-  Node *num1 = takeInput();
-  Node *num2 = takeInput();
-  Node *head = multiply_two_numbers(num1, num2);
+  Node *head = takeInput();
+  head = sort_abs_with_actual_value(head);
   printLinkedList(head);
   return 0;
 }
