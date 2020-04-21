@@ -614,10 +614,75 @@ Node *pairWiseSwap(Node *head) {
   return swappedHead;
 }
 
-int main() {
-  Node *head = takeInput();
-  cout << check_palindrome(head) << endl;
-  // printLinkedList(head);
+Node *multiply_two_numbers(Node *head1, Node *head2) {
+  if (head1 == NULL) {
+    return head1;
+  }
+  if (head2 == NULL) {
+    return head2;
+  }
+  Node *finalHead = NULL;
+  Node *head = NULL;
+  Node *newHead = NULL;
+  Node *tempHead = NULL;
+  Node *newTempHead = NULL;
+  head1 = reverseLLRecursiveBest(head1);
+  head2 = reverseLLRecursiveBest(head2);
 
+  while (head2 != NULL) {
+    if (newTempHead) {
+      newTempHead = newTempHead->next;
+      tempHead = newTempHead;
+    }
+
+    Node *temp1 = head1;
+    Node *temp2 = head2;
+    int carry = 0;
+    while (temp1 != NULL) {
+      int sum = temp1->data * temp2->data + carry;
+      if (newHead == NULL) {
+        newHead = new Node(sum % 10);
+        head = newHead;
+        finalHead = head;
+        carry = sum / 10;
+        tempHead = newHead;
+        newTempHead = tempHead;
+        tempHead = tempHead->next;
+      } else {
+        if (tempHead) {
+          sum = sum + tempHead->data;
+          carry = sum / 10;
+          sum = sum % 10;
+          tempHead->data = sum;
+          tempHead = tempHead->next;
+        } else {
+          carry = sum / 10;
+          sum = sum % 10;
+          tempHead = new Node(sum);
+          head->next = tempHead;
+          head = head->next;
+          tempHead = tempHead->next;
+        }
+      }
+
+      temp1 = temp1->next;
+    }
+
+    if (carry > 0) {
+      tempHead = new Node(carry);
+      head->next = tempHead;
+      head = head->next;
+    }
+    head2 = head2->next;
+  }
+
+  return reverseLLRecursiveBest(finalHead);
+}
+
+int main() {
+  Node *num1 = takeInput();
+  Node *num2 = takeInput();
+  Node *head = multiply_two_numbers(num1, num2);
+  printLinkedList(head);
   return 0;
 }
