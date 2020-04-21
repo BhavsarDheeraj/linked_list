@@ -696,9 +696,23 @@ Node *sort_abs_with_actual_value(Node *head) {
   return head;
 }
 
+Node *delete_alternate(Node *head) {
+  if (head == NULL || head->next == NULL) {
+    return head;
+  }
+  Node *temp = head;
+  while (temp != NULL && temp->next != NULL) {
+    Node *toDelete = temp->next;
+    temp->next = temp->next->next;
+    delete toDelete;
+    temp = temp->next;
+  }
+  return head;
+}
+
 int main() {
   Node *head = takeInput();
-  head = sort_abs_with_actual_value(head);
+  head = delete_alternate(head);
   printLinkedList(head);
   return 0;
 }
