@@ -710,6 +710,23 @@ Node *delete_alternate(Node *head) {
   return head;
 }
 
+Node *swapNodes(Node *node1, Node *node2) {
+  node1->next = node2->next;
+  node2->next = node1;
+  return node2;
+}
+
+Node *swapPairs(Node *head) {
+  if (head == NULL || head->next == NULL) {
+    return head;
+  }
+  Node *newHead = swapNodes(head, head->next);
+  if (head->next != NULL && head->next->next != NULL) {
+    head->next = swapPairs(head->next);
+  }
+  return newHead;
+}
+
 int main() {
   Node *head = takeInput();
   head = delete_alternate(head);
